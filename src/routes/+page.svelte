@@ -81,6 +81,7 @@
 				</p>
 				<p>Ricorda: Il tuo obiettivo è quello di sterminare tutti gli underage, e che nessuno rimanga vivo.</p>
 			</div>
+			
 			<div class="center-button">
 				<Button content="SEI PRONTO? DAI INIZIO AI BAN!" handleClick={() => {window.location.href = "/vc"}} />
 			</div>

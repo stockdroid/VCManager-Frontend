@@ -1,4 +1,4 @@
-const apiBaseUrl = "http://132.145.57.149:5889";
+export const apiBaseUrl = "https://vcapi.stockdroid.it";
 
 export async function makeAPIReq(method: "POST" | "GET" | "PATCH" | "DELETE" | "PUT", path: string, authorization: string, body?: any) {
     const options: {

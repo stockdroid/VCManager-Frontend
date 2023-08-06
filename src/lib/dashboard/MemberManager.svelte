@@ -1,36 +1,23 @@
 <script lang="ts">
 	import Button from '$lib/Button.svelte';
 	import { makeAPIReq } from '$lib/APIManager';
+	import { Globals, type Member } from '$lib/Globals';
 
-	export let members: {
-		name: string;
-		surname?: string;
-		id: number;
-		username: string;
-	}[] = [];
 
 	export let Authorization = '';
-	let selectedMember: {
-		name: string;
-		surname?: string;
-		id: number;
-		username: string;
-	} | null = null;
+	let selectedMember: Member | null = null;
 
-	let whitelist: number[] = [];
-
-	let forcedMutes: number[] = [];
 
 	makeAPIReq('GET', '/whitelist', Authorization).then((data) => {
-		whitelist = data.whitelist;
+		Globals.whitelist = data.whitelist;
 	});
 
 	makeAPIReq('GET', '/forcedmutes', Authorization).then((data) => {
-		forcedMutes = data.forcedmutes;
+		Globals.forcedmutes = data.forcedmutes;
 	});
 
 	function selectOption(event: any) {
-		selectedMember = members.find(
+		selectedMember = Globals.members.find(
 			(member) => member.id.toString() === event.target.value.toString()
 		)!;
 	}
@@ -81,7 +68,7 @@
 	}
 
 	function ToggleUserWhitelist() {
-		const whitelistStatus = whitelist.includes(selectedMember?.id!);
+		const whitelistStatus = Globals.whitelist.includes(selectedMember?.id!);
 		const yes = confirm(
 			`Sei sicuro di voler ${whitelistStatus ? 'rimuovere' : 'aggiungere'} questo utente ${
 				whitelistStatus ? 'dalla' : 'alla'
@@ -101,7 +88,7 @@
 			'/whitelist?id=' + selectedMember.id,
 			Authorization
 		).then((data) => {
-			whitelist = data.currwhitelist;
+			Globals.whitelist = data.currwhitelist;
 			alert(
 				`Utente ${whitelistStatus ? 'rimosso' : 'aggiunto'} ${
 					whitelistStatus ? 'dalla' : 'alla'
@@ -111,7 +98,7 @@
 	}
 
 	function ToggleUserForcedmute() {
-		const forcedMuteStatus = forcedMutes.includes(selectedMember?.id!);
+		const forcedMuteStatus = Globals.forcedmutes.includes(selectedMember?.id!);
 		const yes = confirm(
 			`Sei sicuro di voler ${forcedMuteStatus ? 'rimuovere' : 'aggiungere'} questo utente ${
 				forcedMuteStatus ? 'dai' : 'ai'
@@ -138,24 +125,27 @@
 
 <select style="margin-bottom: 10px;" class="select-dropdown" on:change={selectOption}>
 	<option value="default" disabled selected>Seleziona un utente</option>
-	{#each members as member}
+	{#each Globals.members as member}
 		<option value={member.id}>{member.name} ({'@' + member.username ?? 'Nessun username'})</option>
 	{/each}
 </select>
 <div class="button-container">
 	{#if selectedMember}
-		<Button content="Muta" handleClick={MuteUser} />
-		<Button content="Smuta" handleClick={UnmuteUser} />
+		{#if selectedMember.muted}
+			<Button content="Muta" handleClick={MuteUser} />
+		{:else} 
+			<Button content="Smuta" handleClick={UnmuteUser} />
+		{/if}
 		<Button content="Imposta vol." handleClick={SetVolume} />
 		<Button
-			content="{whitelist.includes(selectedMember.id)
+			content="{Globals.whitelist.includes(selectedMember.id)
 				? 'Rimuovi dalla'
 				: 'Aggiungi alla'} whitelist"
 			handleClick={ToggleUserWhitelist}
 		/>
-		{#if !whitelist.includes(selectedMember.id)}
+		{#if !Globals.whitelist.includes(selectedMember.id)}
 			<Button
-				content="{forcedMutes.includes(selectedMember.id)
+				content="{Globals.whitelist.includes(selectedMember.id)
 					? 'Rimuovi dai'
 					: 'Aggiungi ai'} mute forzati"
 				handleClick={ToggleUserForcedmute}
