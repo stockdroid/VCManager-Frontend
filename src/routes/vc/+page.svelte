@@ -2,17 +2,16 @@
 	import { onMount } from 'svelte';
 	import Loading from '$lib/Loading.svelte';
 	import LimitHandler from '$lib/dashboard/LimitHandler.svelte';
-	import { apiBaseUrl, getAuthCookie, makeAPIReq } from '$lib/APIManager';
+	import {apiBaseUrl, getAuthCookie, makeAPIReq} from '$lib/APIManager';
 	import MemberManager from '$lib/dashboard/MemberManager.svelte';
 	import VcManager from '$lib/dashboard/VCManager.svelte';
 	import AudioManager from '$lib/dashboard/AudioManager.svelte';
 	import { Globals, WebsocketEvents, WebsocketResponses } from '$lib/Globals';
-	let Authorization = '';
 	let loaded = false;
 	let currlimit = 0;
 
 	async function fetchMembers() {
-		const members = await makeAPIReq('GET', '/participants', Authorization);
+		const members = await makeAPIReq('GET', '/participants');
 		let userids = '';
 		for (let member of members.participants) {
 			if (member.is_self) continue;
@@ -20,7 +19,7 @@
 		}
 		userids = userids.slice(0, -1);
 		if (userids == '') return;
-		const users = await makeAPIReq('GET', '/massinfo/' + userids, Authorization);
+		const users = await makeAPIReq('GET', '/massinfo/' + userids);
 
 		Globals.members = users.map((user: any) => ({
 			name: user.info.first_name,
@@ -31,18 +30,17 @@
 	}
 
 	onMount(async () => {
-		Authorization = getAuthCookie()!;
-
-		const isInVc = await makeAPIReq('GET', '/voicechat/invc', Authorization);
-		const isVcOn = await makeAPIReq('POST', '/voicechat/info', Authorization);
+		const isInVc = await makeAPIReq('GET', '/voicechat/invc');
+		const isVcOn = await makeAPIReq('POST', '/voicechat/info');
+		let Authorization = getAuthCookie()
 
 		if (isVcOn.error === 'GROUPCALL_NOT_EXIST') {
 			window.location.href = '/';
 		} else {
 			if (!isInVc.vcpresent) {
-				await makeAPIReq('POST', '/voicechat/join', Authorization);
+				await makeAPIReq('POST', '/voicechat/join');
 			}
-			const vcLimit = await makeAPIReq('GET', '/limits', Authorization);
+			const vcLimit = await makeAPIReq('GET', '/limits');
 			currlimit = vcLimit.currlimit;
 			await fetchMembers();
 			const ws = new WebSocket(apiBaseUrl.replace("https://", "wss://") +'/stream?authorization=' + Authorization);
@@ -83,13 +81,13 @@
 					}
 					case WebsocketEvents.NetworkChange: {
 						if (!data.data.connected) {
-							const req = await makeAPIReq('GET', '/voicechat/info', Authorization!);
+							const req = await makeAPIReq('GET', '/voicechat/info');
 							if (req.error === 'GROUPCALL_NOT_EXIST') {
 								alert('La chat vocale è stata terminata, verrai reindirizzato alla homepage.');
 								window.location.href = '/';
 								break;
 							}
-							await makeAPIReq('POST', '/voicechat/join', Authorization!);
+							await makeAPIReq('POST', '/voicechat/join');
 						}
 						break;
 					}
@@ -133,14 +131,14 @@
 				<div class="setting">
 					<div class="setting-title">Limite VC</div>
 					<div class="setting-params">Limite di persone che possono parlare</div>
-					<LimitHandler {currlimit} {Authorization} />
+					<LimitHandler {currlimit} />
 				</div>
 
 				<div class="setting">
 					<div class="setting-title">Utenti</div>
 					<div class="setting-params">Gestione utenti</div>
 					{#if Globals.members.length > 0}
-						<MemberManager {Authorization} />
+						<MemberManager />
 					{:else}
 						<p>Non ci sono utenti in VC</p>
 					{/if}
@@ -148,12 +146,12 @@
 				<div class="setting">
 					<div class="setting-title">VC</div>
 					<div class="setting-params">Gestione VC</div>
-					<VcManager {Authorization} />
+					<VcManager />
 				</div>
 				<div class="setting">
 					<div class="setting-title">Audio</div>
 					<div class="setting-params">Riproduzione audio</div>
-					<AudioManager {Authorization} />
+					<AudioManager />
 				</div>
 			</div>
 		</div>

@@ -3,15 +3,14 @@
 	import { makeAPIReq } from '$lib/APIManager';
 	import { Globals, type Member } from '$lib/Globals';
 
-	export let Authorization = '';
 	let selectedMember: Member | null = null;
 
 
-	makeAPIReq('GET', '/whitelist', Authorization).then((data) => {
+	makeAPIReq('GET', '/whitelist').then((data) => {
 		Globals.whitelist = data.whitelist;
 	});
 
-	makeAPIReq('GET', '/forcedmutes', Authorization).then((data) => {
+	makeAPIReq('GET', '/forcedmutes').then((data) => {
 		Globals.forcedmutes = data.forcedmutes;
 	});
 
@@ -26,7 +25,7 @@
 			return;
 		}
 
-		makeAPIReq('POST', '/mute/' + selectedMember.id, Authorization).then((data) => {
+		makeAPIReq('POST', '/mute/' + selectedMember.id).then((data) => {
 			if (data.muted) {
 				alert('Utente mutato!');
 			}
@@ -38,7 +37,7 @@
 			return;
 		}
 
-		makeAPIReq('POST', '/allow/' + selectedMember.id, Authorization).then((data) => {
+		makeAPIReq('POST', '/allow/' + selectedMember.id).then((data) => {
 			if (!data.muted) {
 				alert('Utente smutato!');
 			}
@@ -57,7 +56,7 @@
 			return;
 		}
 
-		makeAPIReq('POST', '/volume/' + selectedMember.id + '?volume=' + volume, Authorization).then(
+		makeAPIReq('POST', '/volume/' + selectedMember.id + '?volume=' + volume).then(
 			(data) => {
 				if (data.volume) {
 					alert('Volume impostato!');
@@ -84,8 +83,7 @@
 
 		makeAPIReq(
 			whitelistStatus ? 'DELETE' : 'PUT',
-			'/whitelist?id=' + selectedMember.id,
-			Authorization
+			'/whitelist?id=' + selectedMember.id
 		).then((data) => {
 			Globals.whitelist = data.currwhitelist;
 			alert(
@@ -115,7 +113,6 @@
 		makeAPIReq(
 			'POST',
 			'/forcedmutes/action/' + selectedMember.id + '?action=' + forcedMuteStatus ? 'remove' : 'add',
-			Authorization
 		).then((data) => {
             alert( forcedMuteStatus ? "Rimosso dai" : "Aggiunto ai" + " mute forzati!")
         });

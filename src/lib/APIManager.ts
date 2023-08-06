@@ -1,6 +1,6 @@
 export const apiBaseUrl = "https://vcapi.stockdroid.it";
 
-export async function makeAPIReq(method: "POST" | "GET" | "PATCH" | "DELETE" | "PUT", path: string, authorization: string, body?: any) {
+export async function makeAPIReq(method: "POST" | "GET" | "PATCH" | "DELETE" | "PUT", path: string, body?: any) {
     const options: {
         method: "POST" | "GET" | "PATCH" | "DELETE" | "PUT",
         headers: {
@@ -12,7 +12,7 @@ export async function makeAPIReq(method: "POST" | "GET" | "PATCH" | "DELETE" | "
         method,
         headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${authorization}`
+            Authorization: `Bearer ${getAuthCookie()}`
         }
     }
 

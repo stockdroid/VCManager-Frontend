@@ -1,11 +1,10 @@
 <script lang="ts">
     import Button from '$lib/Button.svelte';
     import { makeAPIReq } from '$lib/APIManager';
-    export let Authorization = '';
 
     let IsRecording = false;
     (async () => {
-        const data = await makeAPIReq('POST', '/voicechat/info', Authorization);
+        const data = await makeAPIReq('POST', '/voicechat/info');
         IsRecording = data.info.record_video_active;
     })
 
@@ -16,7 +15,7 @@
 
 
 
-        makeAPIReq('POST', '/voicechat/title?title=' + newTitle, Authorization).then((data) => {
+        makeAPIReq('POST', '/voicechat/title?title=' + newTitle).then((data) => {
             if (data.newtitle) {
                 alert('Titolo cambiato a ' + data.newtitle + '!');
             }
@@ -29,7 +28,7 @@
 
             if (!confirmStop) return;
 
-            makeAPIReq('POST', '/voicechat/record?start=false', Authorization).then((data) => {
+            makeAPIReq('POST', '/voicechat/record?start=false').then((data) => {
                 if (!data.record) {
                     alert('Registrazione terminata!');
                     IsRecording = false;
@@ -43,7 +42,7 @@
 
         if (!confirmation) return;
 
-        makeAPIReq('POST', '/voicechat/record?start=true&video=' + video, Authorization).then((data) => {
+        makeAPIReq('POST', '/voicechat/record?start=true&video=' + video).then((data) => {
             if (data.record) {
                 alert('Registrazione iniziata!');
                 IsRecording = true;
@@ -56,7 +55,7 @@
 
         if (!confirmEnd) return;
 
-        makeAPIReq('POST', '/voicechat/end', Authorization).then((data) => {
+        makeAPIReq('POST', '/voicechat/end').then((data) => {
             if (data.left) {
                 window.location.href = '/';
             }

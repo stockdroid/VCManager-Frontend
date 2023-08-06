@@ -1,12 +1,11 @@
 <script lang="ts">
-	export let Authorization = '';
 	import { makeAPIReq } from '$lib/APIManager';
 	import Button from '$lib/Button.svelte';
 	import { Globals } from '$lib/Globals';
     let paused = false;
 
 	(async () => {
-		const data = await makeAPIReq('GET', '/play/list', Authorization);
+		const data = await makeAPIReq('GET', '/play/list');
 		Globals.audioFiles = data.filenames;
 	})();
 
@@ -15,7 +14,7 @@
 	}
 
     function playAudio() {
-        makeAPIReq('POST', '/play/' + Globals.selectedAudio!, Authorization).then((data) => {
+        makeAPIReq('POST', '/play/' + Globals.selectedAudio!).then((data) => {
             if (data.playing) {
                 alert('Audio riprodotto!');
                 Globals.currentlyPlayingAudio = {
@@ -28,7 +27,7 @@
     }
 
     function togglePlayback() {
-        makeAPIReq('PATCH', `/play/${paused ? "resume" : "pause"}`, Authorization).then((data) => {
+        makeAPIReq('PATCH', `/play/${paused ? "resume" : "pause"}`).then((data) => {
             if (data.paused) {
                 alert('Audio riprodotto!');
             } else {

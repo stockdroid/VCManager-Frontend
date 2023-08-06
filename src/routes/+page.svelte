@@ -2,31 +2,28 @@
 	import { onMount } from 'svelte';
 	import Loading from '$lib/Loading.svelte';
 	import Button from '$lib/Button.svelte';
-	import { getAuthCookie, makeAPIReq } from '$lib/APIManager';
-	let Authorization = '';
+	import { makeAPIReq } from '$lib/APIManager';
 	let loaded = false;
 	let isInVc = false;
 	let vcExists = false;
 	onMount(async () => {
 		// get cf_authorization cookie
 
-		Authorization = getAuthCookie()!;
-
-		const isVcOn = await makeAPIReq('POST', '/voicechat/info', Authorization);
+		const isVcOn = await makeAPIReq('POST', '/voicechat/info');
 
 		if (isVcOn.error === 'GROUPCALL_NOT_EXIST') {
 			vcExists = false;
 			loaded = true;
 		} else {
 			vcExists = true;
-			const botStatus = await makeAPIReq('GET', '/voicechat/invc', Authorization);
+			const botStatus = await makeAPIReq('GET', '/voicechat/invc');
 			isInVc = botStatus.vcpresent;
 			loaded = true;
 			//if (isInVc) window.location.href = '/vc';
 		}
 	});
 	function startVc() {
-		makeAPIReq('POST', '/voicechat/create', Authorization)
+		makeAPIReq('POST', '/voicechat/create')
 			.then(() => {
 				window.location.href = '/vc';
 			})

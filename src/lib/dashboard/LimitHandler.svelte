@@ -2,11 +2,10 @@
 	import { makeAPIReq } from '$lib/APIManager';
 	import Button from '$lib/Button.svelte';
 	export let currlimit = 0;
-	export let Authorization = '';
 
 	function ApplyVCLimit() {
 		const input = document.getElementById('currlimit')! as HTMLInputElement;
-		makeAPIReq('POST', '/limits', Authorization, { currlimit: parseInt(input.value) }).then(
+		makeAPIReq('POST', '/limits', { currlimit: parseInt(input.value) }).then(
 			(data) => {
 				if (data.exlimit) {
 					currlimit = parseInt(input.value);
