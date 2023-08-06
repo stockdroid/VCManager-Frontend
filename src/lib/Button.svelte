@@ -23,7 +23,6 @@
 		display: flex;
 		flex-direction: row;
 		justify-content: center;
-		align-items: center;
 		font-size: 100%;
 		line-height: 1.15;
 		margin: 0;

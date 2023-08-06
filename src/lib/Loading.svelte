@@ -19,8 +19,8 @@
 		font-weight: bold;
 		text-align: center;
         color: white;
-        font: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        font-size: 40px;
+		font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+		font-size: 40px;
         position: absolute;
         top: 50%;
         left: 50%;

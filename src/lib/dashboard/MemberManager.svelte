@@ -3,7 +3,6 @@
 	import { makeAPIReq } from '$lib/APIManager';
 	import { Globals, type Member } from '$lib/Globals';
 
-
 	export let Authorization = '';
 	let selectedMember: Member | null = null;
 
@@ -157,7 +156,7 @@
 <style>
 	.select-dropdown {
 		width: 200px;
-		padding: px;
+		padding: 2px;
 		border: 1px solid #ccc;
 		border-radius: 5px;
 		cursor: pointer;

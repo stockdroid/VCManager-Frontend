@@ -36,9 +36,7 @@ export async function makeAPIReq(method: "POST" | "GET" | "PATCH" | "DELETE" | "
         }
     }
 
-    const data = await res.json()
-
-    return data;
+    return await res.json();
 }
 
 export function getAuthCookie() {

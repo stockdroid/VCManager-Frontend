@@ -66,7 +66,7 @@
 
 <Button content="Cambia Titolo VC" handleClick={ChangeTitle}/>
 <div style="margin-bottom: 10px;"></div>
-<Button content="{IsRecording ? "Termina la registrazione" : "Registra la"} VC" handleClick={ToggleRecord} />
+<Button content="{IsRecording ? 'Termina la registrazione della' : 'Registra la'} VC" handleClick={ToggleRecord} />
 <div style="margin-bottom: 10px;"></div>
 <!-- make the button red-->
 <Button content="Termina la VC" handleClick={EndVC} color="red" />

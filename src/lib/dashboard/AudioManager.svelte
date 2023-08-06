@@ -52,8 +52,8 @@
 </select>
 {#if Globals.selectedAudio}
     <Button content="Riproduci suono" handleClick={playAudio} />
-    <div style="margin-bottom: 10px;" />
-    <Button content="{Globals.currentlyPlayingAudio?.state === "PAUSE" ? "Riprendi riproduzione" : "Metti in pausa"}" handleClick={togglePlayback} />
+    <div style="margin-bottom: 10px;"></div>
+    <Button content="{Globals.currentlyPlayingAudio?.state === 'PAUSE' ? 'Riprendi riproduzione' : 'Metti in pausa'}" handleClick={togglePlayback} />
     <!-- <Button content="Informazioni sull'audio" handleClick={audioInformation} /> -->
 {/if}
 
@@ -61,7 +61,7 @@
 <style>
 	.select-dropdown {
 		width: 200px;
-		padding: px;
+		padding: 2px;
 		border: 1px solid #ccc;
 		border-radius: 5px;
 		cursor: pointer;

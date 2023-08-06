@@ -53,15 +53,15 @@
 					src="/favicon.png"
 					height="256"
 					width="256"
-					alt="Logo de IL VILLAGGIO DEI CRISATICI VC MANAGER"
+					alt="Logo de IL VILLAGGIO DEI CRISATICI VC Manager"
 					class="vcmanagerimg"
 				/>
-				<h1>Vc Manager: The game</h1>
+				<h1>VC Manager: The game</h1>
 				<p>
 					Buonasera moderatore, sembra che sei pronto per una nuova avventura piena di underage
 					fissati con Ordissimo
 				</p>
-				<p>Il tuo obiettivo è quello di sterminarli tutti, e che nessuno rimanga vivo.</p>
+				<p>Il tuo obiettivo è quello di bannarli tutti, e fare in modo che nessuno rimanga vivo.</p>
 			</div>
 			<div class="center-button">
 				<Button content="SEI PRONTO? DAI INIZIO AI BAN!" handleClick={startVc} />
@@ -75,11 +75,11 @@
 					alt="Logo de IL VILLAGGIO DEI CRISATICI VC MANAGER"
 					class="vcmanagerimg"
 				/>
-				<h1>Vc Manager: The game</h1>
+				<h1>VC Manager: The game</h1>
 				<p>
 					Buonasera moderatore, il divertimento è già incominciato, che stai aspettando?
 				</p>
-				<p>Ricorda: Il tuo obiettivo è quello di sterminare tutti gli underage, e che nessuno rimanga vivo.</p>
+				<p>Ricorda: Il tuo obiettivo è quello di bannarli tutti, e fare in modo che nessuno rimanga vivo.</p>
 			</div>
 			
 			<div class="center-button">
